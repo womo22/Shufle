@@ -1,15 +1,36 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
+import { getMessage } from './../assets/utils/APIService'
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 
 import { MonoText } from '../components/StyledText';
 
 export default function HomeScreen() {
+  const [name, onChangeText] = React.useState();
+  const [message, onGetMessage] = React.useState("");
+  //message = message.resolve();
+  console.log("message = " + message);
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
+        <Text>Enter your name: </Text>
+        <TextInput
+          onChangeText={text => onChangeText(text)}
+          value={name}>
+        </TextInput>
+        <TouchableOpacity
+          style = {styles.submitButton}
+          onPress={() => {
+            let message2 = getMessage(name);
+            //console.log(message2);
+            //message2 = message2.resolve();
+            onGetMessage(message2);
+          }}>
+          <Text style={styles.submitButtonText}> Submit </Text>
+        </TouchableOpacity>
+        <Text>{message.data}</Text>
+        {/* <View style={styles.welcomeContainer}>
           <Image
             source={
               __DEV__
@@ -38,7 +59,7 @@ export default function HomeScreen() {
           <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
             <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </ScrollView>
 
       <View style={styles.tabBarInfoContainer}>
@@ -175,5 +196,11 @@ const styles = StyleSheet.create({
   helpLinkText: {
     fontSize: 14,
     color: '#2e78b7',
+  },
+  submitButton: {
+    backgroundColor: '#7a42f4',
+    padding: 10,
+    margin: 15,
+    height: 40,
   },
 });
