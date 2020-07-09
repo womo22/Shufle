@@ -10,7 +10,7 @@ export default function HomeScreen() {
   const [name, onChangeText] = React.useState();
   const [message, onGetMessage] = React.useState("");
   //message = message.resolve();
-  console.log("message = " + message);
+  console.log("message = " + message.resolve());
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
