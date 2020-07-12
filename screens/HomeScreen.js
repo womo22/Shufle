@@ -9,8 +9,10 @@ import { MonoText } from '../components/StyledText';
 export default function HomeScreen() {
   const [name, onChangeText] = React.useState();
   const [message, onGetMessage] = React.useState("");
-  //message = message.resolve();
-  console.log("message = " + message.resolve());
+  async function loadMessage() {
+    const message2 = await getMessage(name);
+    onGetMessage(message2.result);
+  }
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -21,15 +23,10 @@ export default function HomeScreen() {
         </TextInput>
         <TouchableOpacity
           style = {styles.submitButton}
-          onPress={() => {
-            let message2 = getMessage(name);
-            //console.log(message2);
-            //message2 = message2.resolve();
-            onGetMessage(message2);
-          }}>
+          onPress={ loadMessage }>
           <Text style={styles.submitButtonText}> Submit </Text>
         </TouchableOpacity>
-        <Text>{message.data}</Text>
+        <Text>{message}</Text>
         {/* <View style={styles.welcomeContainer}>
           <Image
             source={
