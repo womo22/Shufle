@@ -49,7 +49,7 @@ export async function login(username, password){
     try {
         const user = await Parse.User.logIn(username, password);
     
-        console.log("logged in");
+        console.log("logged in ");
         console.log(user);
         return true;
     }

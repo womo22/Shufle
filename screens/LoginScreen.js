@@ -12,8 +12,9 @@ export default function LoginScreen(props) {
     async function processLogin() {
         let result = await login(username, password);
         if (result) {
+            //console.log(setLoggedIn());
             setLoggedIn(true);
-        } 
+        }
     }
     
     return (

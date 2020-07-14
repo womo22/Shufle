@@ -17,8 +17,11 @@ export default function App({navigation}) {
   const isLoadingComplete = useCachedResources();
   const [loggedIn, setLoggedIn] = React.useState(false);
 
+  //const setLog = () => {
+    //setLoggedIn(true);
+  //}
 
-  console.log(loggedIn);
+  console.log(setLoggedIn);
   if (!isLoadingComplete) {
     return null;
   } else {
