@@ -25,7 +25,12 @@ export default function LoginScreen(props) {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Button title="Sign in" onPress={() => {login(username, password); setLoggedIn(true)}} />
+            <Button title="Sign in" onPress={() => {
+                if (login(username, password)) {
+                    console.log("yay!");
+                    setLoggedIn(true);
+                }
+            }} />
         </View>
     );
 }

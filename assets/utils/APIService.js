@@ -34,9 +34,33 @@ export async function getMessage(name) {
     }
 }
 
+export async function register(username, password, email, number){
+    var user = new Parse.User();
+    user.set("username", username);
+    user.set("password", password);
+    user.set("email", email);
+
+    // other fields can be set just like with Parse.Object
+    user.set("phone", number);
+    try {
+        await user.signUp();
+        // Hooray! Let them use the app now.
+    } catch (error) {
+        // Show the error message somewhere and let the user try again.
+        alert("Error: " + error.code + " " + error.message);
+    }
+}
+
+
 export async function login(username, password){
-    const user = await Parse.User.logIn(username, password);
+    try {
+        const user = await Parse.User.logIn(username, password);
     
-    console.log("logged in");
-    console.log(user);
+        console.log("logged in");
+        console.log(user);
+        return true;
+    }
+    catch (error) {
+        return false;
+    }
 }
