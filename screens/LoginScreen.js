@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View, TextInput, Button } from 'react-native';
+import { login } from './../assets/utils/APIService';
 
 const AuthContext = React.createContext();
 
@@ -8,8 +9,9 @@ export default function LoginScreen(props) {
     const [password, setPassword] = React.useState('');
 
     //const { signIn } = React.useContext(AuthContext);
-    console.log(props.route.params.func);
     const setLoggedIn = props.route.params.func;
+    console.log("this is logged in");
+    console.log(setLoggedIn);
     return (
         <View>
             <TextInput
@@ -23,7 +25,7 @@ export default function LoginScreen(props) {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Button title="Sign in" onPress={() => setLoggedIn(true)} />
+            <Button title="Sign in" onPress={() => {login(username, password); setLoggedIn(true)}} />
         </View>
     );
 }

@@ -7,7 +7,7 @@ import { StyleSheet, View } from 'react-native';
 import useCachedResources from './hooks/useCachedResources';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import LinkingConfiguration from './navigation/LinkingConfiguration';
-import AsyncStorage from '@react-native-community/async-storage';
+//import AsyncStorage from '@react-native-community/async-storage';
 import LoginScreen from './screens/LoginScreen';
 
 const Stack = createStackNavigator();
@@ -27,7 +27,7 @@ export default function App({navigation}) {
         <NavigationContainer linking={LinkingConfiguration}>
             <Stack.Navigator>
               {!loggedIn ? (
-              <Stack.Screen name="Login" component={LoginScreen} initialParams={{ 'func': setLoggedIn }} />
+              <Stack.Screen name="Login" component={LoginScreen} initialParams={{ 'func': () => setLoggedIn() }} />
               ): (
                 <Stack.Screen name="Root" component={BottomTabNavigator} />
               )}
