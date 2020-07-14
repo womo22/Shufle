@@ -8,10 +8,14 @@ export default function LoginScreen(props) {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-    //const { signIn } = React.useContext(AuthContext);
     const setLoggedIn = props.route.params.func;
-    console.log("this is logged in");
-    console.log(setLoggedIn);
+    async function processLogin() {
+        let result = await login(username, password);
+        if (result) {
+            setLoggedIn(true);
+        } 
+    }
+    
     return (
         <View>
             <TextInput
@@ -26,10 +30,7 @@ export default function LoginScreen(props) {
                 secureTextEntry
             />
             <Button title="Sign in" onPress={() => {
-                if (login(username, password)) {
-                    console.log("yay!");
-                    setLoggedIn(true);
-                }
+                processLogin();
             }} />
         </View>
     );
