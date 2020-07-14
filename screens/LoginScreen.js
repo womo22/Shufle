@@ -8,7 +8,6 @@ export default function LoginScreen(props) {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-    //const { signIn } = React.useContext(AuthContext);
     const setLoggedIn = props.route.params.func;
     async function processLogin() {
         let result = await login(username, password);
@@ -16,8 +15,7 @@ export default function LoginScreen(props) {
             setLoggedIn(true);
         } 
     }
-    //console.log("this is logged in");
-    console.log(setLoggedIn);
+    
     return (
         <View>
             <TextInput

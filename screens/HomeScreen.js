@@ -9,20 +9,66 @@ import { MonoText } from '../components/StyledText';
 export default function HomeScreen() {
   const [name, onChangeText] = React.useState();
   const [message, onGetMessage] = React.useState("");
-  async function loadMessage() {
-    const message2 = await getMessage(name);
-    onGetMessage(message2.result);
-  }
+  //message = message.resolve();
+  //console.log("message = " + message.resolve());
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <Text>Enter your name: </Text>
+        <TextInput
+          onChangeText={text => onChangeText(text)}
+          value={name}>
+        </TextInput>
         <TouchableOpacity
           style = {styles.submitButton}
-          onPress={ loadMessage }>
-          <Text style={styles.submitButtonText}> Load Message </Text>
+          onPress={() => {
+            let message2 = getMessage(name);
+            //console.log(message2);
+            //message2 = message2.resolve();
+            onGetMessage(message2);
+          }}>
+          <Text style={styles.submitButtonText}> Submit </Text>
         </TouchableOpacity>
-        <Text>{message}</Text>
+        <Text>{message.data}</Text>
+        {/* <View style={styles.welcomeContainer}>
+          <Image
+            source={
+              __DEV__
+                ? require('../assets/images/robot-dev.png')
+                : require('../assets/images/robot-prod.png')
+            }
+            style={styles.welcomeImage}
+          />
+        </View>
+
+        <View style={styles.getStartedContainer}>
+          <DevelopmentModeNotice />
+
+          <Text style={styles.getStartedText}>Open up the code for this screen:</Text>
+
+          <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
+            <MonoText>screens/HomeScreen.js</MonoText>
+          </View>
+
+          <Text style={styles.getStartedText}>
+            Change any of the text, save the file, and your app will automatically reload.
+          </Text>
+        </View>
+
+        <View style={styles.helpContainer}>
+          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
+            <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
+          </TouchableOpacity>
+        </View> */}
       </ScrollView>
+
+      <View style={styles.tabBarInfoContainer}>
+        <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
+
+        <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
+          <MonoText style={styles.codeHighlightText}>navigation/BottomTabNavigator.js</MonoText>
+        </View>
+      </View>
     </View>
   );
 }
