@@ -27,7 +27,7 @@ export default function App({navigation}) {
         <NavigationContainer linking={LinkingConfiguration}>
             <Stack.Navigator>
               {!loggedIn ? (
-              <Stack.Screen name="Login" component={LoginScreen} initialParams={{ 'func': () => setLoggedIn() }} />
+              <Stack.Screen name="Login" component={LoginScreen} initialParams={{ 'func': setLoggedIn }} />
               ): (
                 <Stack.Screen name="Root" component={BottomTabNavigator} />
               )}
