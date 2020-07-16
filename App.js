@@ -1,45 +1,40 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import useCachedResources from './hooks/useCachedResources';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import LinkingConfiguration from './navigation/LinkingConfiguration';
-//import AsyncStorage from '@react-native-community/async-storage';
 import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
+import HomeScreen from './screens/HomeScreen';
 
 const Stack = createStackNavigator();
 const AuthContext = React.createContext();
 
 export default function App({navigation}) {
-  const isLoadingComplete = useCachedResources();
+  useCachedResources();
   const [loggedIn, setLoggedIn] = React.useState(false);
 
-  //const setLog = () => {
-    //setLoggedIn(true);
-  //}
-
-  console.log(setLoggedIn);
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <View style={styles.container}>
-        <NavigationContainer linking={LinkingConfiguration}>
-            <Stack.Navigator>
-              {!loggedIn ? (
-              <Stack.Screen name="Login" component={LoginScreen} initialParams={{ 'func': setLoggedIn }} />
-              ): (
-                <Stack.Screen name="Root" component={BottomTabNavigator} />
+  return (
+    <View style={styles.container}>
+      <NavigationContainer linking={LinkingConfiguration}>
+        <Stack.Navigator>
+          {!loggedIn ? (
+            [
+              <Stack.Screen name="Login" component={LoginScreen} initialParams={{ 'func': setLoggedIn }} />,
+              <Stack.Screen name="Signup" component={SignupScreen} initialParams={{ 'func': setLoggedIn }}/>
+            ]
+          ) : (
+            [
+                <Stack.Screen name="Home" component={HomeScreen} />
+            ]
               )}
-            </Stack.Navigator>
-        </NavigationContainer>
-        <StatusBar style="auto" />
-        </View>
-    );
-  }
+        </Stack.Navigator>
+      </NavigationContainer>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

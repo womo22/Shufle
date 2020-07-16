@@ -37,10 +37,12 @@ export async function register(username, password, email, number){
     user.set("phone", number);
     try {
         await user.signUp();
+        return true;
         // Hooray! Let them use the app now.
     } catch (error) {
         // Show the error message somewhere and let the user try again.
         alert("Error: " + error.code + " " + error.message);
+        return false;
     }
 }
 

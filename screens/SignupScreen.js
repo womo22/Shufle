@@ -1,22 +1,22 @@
 import * as React from 'react';
 import { View, TextInput, Button } from 'react-native';
-import { login } from './../assets/utils/APIService';
+import { register } from './../assets/utils/APIService';
 
-const AuthContext = React.createContext();
-
-export default function LoginScreen(props) {
+export default function SignupScreen(props) {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [phone, setPhone] = React.useState('');
 
     const setLoggedIn = props.route.params.func;
-    async function processLogin() {
-        let result = await login(username, password);
+
+    async function processSignup() {
+        let result = await register(username, password, email, phone);
         if (result) {
-            //console.log(setLoggedIn());
             setLoggedIn(true);
         }
     }
-    
+
     return (
         <View>
             <TextInput
@@ -30,11 +30,18 @@ export default function LoginScreen(props) {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Button title="Sign in" onPress={() => {
-                processLogin();
-            }} />
-            <Button title="No account? Sign up" onPress={() => {
-                props.navigation.navigate('Signup');
+            <TextInput
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+            />
+            <TextInput
+                placeholder="Phone Number"
+                value={phone}
+                onChangeText={setPhone}
+            />
+            <Button title="Sign up" onPress={() => {
+                processSignup();
             }} />
         </View>
     );
