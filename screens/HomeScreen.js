@@ -5,8 +5,9 @@ import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 
 import { MonoText } from '../components/StyledText';
+import BottomTabNavigator from '../navigation/BottomTabNavigator';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation, route }) {
   const [name, onChangeText] = React.useState();
   const [message, onGetMessage] = React.useState("");
 

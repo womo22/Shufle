@@ -8,7 +8,6 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import LinkingConfiguration from './navigation/LinkingConfiguration';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
-import HomeScreen from './screens/HomeScreen';
 
 const Stack = createStackNavigator();
 const AuthContext = React.createContext();
@@ -28,7 +27,7 @@ export default function App({navigation}) {
             ]
           ) : (
             [
-                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Home" component={BottomTabNavigator} />
             ]
               )}
         </Stack.Navigator>
