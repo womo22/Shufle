@@ -10,14 +10,50 @@
 import * as React from 'react';
 import { View, Platform, StyleSheet, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { ProfileCard } from '../components/ProfileCard';
 
 
 export default function StreamScreen(props) {
+  // query server for a certain number of cards
+  // array of {"question": , "answer": }
+  const [cardArray, setCardArray] = React.useState([]);
+  
+
+  // React.useEffect(() => {
+  //   async function getCards() {
+  //     // let result = await getCards(username, password);
+  //     // if (result) {
+  //     //   setCardArray(true);
+  //     // }
+  //     setCardArray([
+  //       {
+  //         'question': 'What is your favorite food?',
+  //         'answer': 'Pineapple pizza',
+  //       },
+  //       {
+  //         'question': 'What is your favorite animal?',
+  //         'answer': 'Elephant',
+  //       },
+  //     ]);
+  //     console.log("here2");
+  //   }
+  //   getCards();
+  // })
+
+  // function advanceCards() {
+  //   const newArr = cardArray;
+  //   newArr.shift();
+  //   console.log("here");
+  //   setCardArray(newArr);
+  // }
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-            <Text style={styles.getStartedText}>Swipe page!</Text>
-            </ScrollView>
+            {/* <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}> */}
+          <Text style={styles.getStartedText}>Swipe page!</Text>
+          {cardArray.length > 0 &&
+            <ProfileCard question="What is your favorite food" answer="Pineapple pizza" />
+          }
+            {/* </ScrollView> */}
         </View>
         );
 }
@@ -37,6 +73,7 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
       paddingTop: 30,
+      height: "100%"
     },
     welcomeContainer: {
       alignItems: 'center',

@@ -18,11 +18,9 @@ export async function getMessage(name) {
             headers: {"X-Parse-Application-Id": "shufle", "Content-Type": "application/json"},
             
         }).then(response => {
-            console.log(response.data.result);
             return response.data.result;
         })
     } catch (error) {
-        console.log("error: " + error);
         return { error: error };
     }
 }
@@ -50,9 +48,6 @@ export async function register(username, password, email, number){
 export async function login(username, password){
     try {
         const user = await Parse.User.logIn(username, password);
-    
-        console.log("logged in ");
-        console.log(user);
         return true;
     }
     catch (error) {
