@@ -12,11 +12,29 @@ import { View, Platform, StyleSheet, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ProfileCard } from '../components/ProfileCard';
 
+import { createCardBatch } from './../assets/utils/APIService';
+
+const axios = require("axios").default;
+
+
+//const BASE_URL = "https://shufle.herokuapp.com/parse/functions/hello";
+const BASE_URL = "https://shufle.herokuapp.com/parse/functions/create_card_batch";
+
 
 export default function StreamScreen(props) {
   // query server for a certain number of cards
   // array of {"question": , "answer": }
-  const [cardArray, setCardArray] = React.useState([]);
+  // const [cardArray, setCardArray] = React.useState([]);
+
+  const [question, setQuestion] = React.useState("");
+  const [answer, setAnswer] = React.useState("");
+
+  React.useEffect(() => {
+    createCardBatch().then(cards => {
+      setQuestion(cards[0].question);
+      setAnswer(cards[0].answer);
+    });
+  }, []);
   
 
   // React.useEffect(() => {
@@ -50,8 +68,8 @@ export default function StreamScreen(props) {
         <View style={styles.container}>
             {/* <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}> */}
           <Text style={styles.getStartedText}>Swipe page!</Text>
-          {cardArray.length > 0 &&
-            <ProfileCard question="What is your favorite food" answer="Pineapple pizza" />
+          {/* {cardArray.length > 0 && */
+            <ProfileCard question={question} answer={answer} />
           }
             {/* </ScrollView> */}
         </View>

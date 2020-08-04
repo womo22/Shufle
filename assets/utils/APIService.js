@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native';
 
 //Before using the SDK...
 const BASE_URL = "https://shufle.herokuapp.com/parse/functions/hello";
-var Parse = require('parse/react-native.js');
+export const Parse = require('parse/react-native.js');
 Parse.initialize("shufle", "iLoveRemy911");
 Parse.setAsyncStorage(AsyncStorage);
 //javascriptKey is required only if you have it on server.
@@ -48,9 +48,26 @@ export async function register(username, password, email, number){
 export async function login(username, password){
     try {
         const user = await Parse.User.logIn(username, password);
+
+        // let CardClass = Parse.Object.extend("Card");
+
+        // let card1 = new CardClass();
+        // card1.set("question", "who is the best dog?");
+        // card1.set("answer", "remy");
+        // card1.set("owner", user);
+        // card1.setACL(new Parse.ACL(user));
+
+        // user.set("cards", [card1]);
+        // user.save();
         return true;
     }
     catch (error) {
         return false;
     }
 }
+
+
+export async function createCardBatch() {
+    return Parse.Cloud.run("create_card_batch", {});
+}
+
