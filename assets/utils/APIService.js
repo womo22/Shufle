@@ -25,6 +25,13 @@ export async function getMessage(name) {
     }
 }
 
+export async function currentlyLoggedIn() {
+    // TODO: check to make sure this also validates the session (i.e. won't give a user back
+    // from an expired session)
+    const user = await Parse.User.currentAsync();
+    return user != 0;
+}
+
 export async function register(username, password, email, number){
     var user = new Parse.User();
     user.set("username", username);
@@ -49,16 +56,6 @@ export async function login(username, password){
     try {
         const user = await Parse.User.logIn(username, password);
 
-        // let CardClass = Parse.Object.extend("Card");
-
-        // let card1 = new CardClass();
-        // card1.set("question", "who is the best dog?");
-        // card1.set("answer", "remy");
-        // card1.set("owner", user);
-        // card1.setACL(new Parse.ACL(user));
-
-        // user.set("cards", [card1]);
-        // user.save();
         return true;
     }
     catch (error) {
@@ -69,5 +66,38 @@ export async function login(username, password){
 
 export async function createCardBatch() {
     return Parse.Cloud.run("create_card_batch", {});
+}
+
+
+// DEBUG ONLY
+export async function makeSomeCards() {
+    const user = await Parse.User.currentAsync();
+    console.log(user);
+
+    const CardClass = Parse.Object.extend("Card");
+
+    let card1 = new CardClass();
+    card1.set("question", "who is really the best dog?");
+    card1.set("answer", "Remy");
+    card1.set("owner", user);
+    card1.setACL(new Parse.ACL(user));
+
+    // delete all previous cards
+    const query = new Parse.Query(CardClass);
+    query.equalTo("owner", user);
+    const cards = await query.find();
+
+    console.log("cards", cards);
+
+    cards.forEach((card) => {
+        card.destroy().then((card) => {
+            console.log("Successfully destroyed card", card);
+        }, (error) => {
+            console.log("Error! could not destroy card because ", error);
+        });
+    });
+
+    user.set("cards", [card1]);
+    user.save();
 }
 

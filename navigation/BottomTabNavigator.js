@@ -5,6 +5,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import StreamScreen from '../screens/StreamScreen';
+import EditScreen from '../screens/EditScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -17,6 +18,14 @@ export default function BottomTabNavigator({ navigation, route }) {
 
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+      <BottomTab.Screen
+        name="Edit"
+        component={EditScreen}
+        options={{
+          title: 'Edit',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-albums" />,
+        }}
+      />
       <BottomTab.Screen
         name="Home"
         component={HomeScreen}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, TextInput, Button } from 'react-native';
-import { login } from './../assets/utils/APIService';
+import { login, currentlyLoggedIn } from './../assets/utils/APIService';
 
 const AuthContext = React.createContext();
 
@@ -15,6 +15,14 @@ export default function LoginScreen(props) {
             setLoggedIn(true);
         }
     }
+
+    React.useEffect(() => {
+        currentlyLoggedIn().then((loggedIn) => {
+            if (loggedIn) {
+                setLoggedIn(true);
+            }
+        });
+    }, []);
     
     return (
         <View>
