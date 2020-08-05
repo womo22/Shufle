@@ -9,7 +9,6 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import LinkingConfiguration from './navigation/LinkingConfiguration';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
-import * as Location from 'expo-location';
 
 const Stack = createStackNavigator();
 const AuthContext = React.createContext();
@@ -20,25 +19,25 @@ export default function App({navigation}) {
   const [location, setLocation] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState(false);
 
-  React.useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-      }
+  // React.useEffect(() => {
+  //   (async () => {
+  //     let { status } = await Location.requestPermissionsAsync();
+  //     if (status !== 'granted') {
+  //       setErrorMsg('Permission to access location was denied');
+  //     }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      console.log(JSON.stringify(location));
-    })();
-  });
+  //     let location = await Location.getCurrentPositionAsync({});
+  //     setLocation(location);
+  //     console.log(JSON.stringify(location));
+  //   })();
+  // });
 
-  let text = 'Waiting..' ;
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-   console.log(JSON.stringify(location));
-  }
+  // let text = 'Waiting..' ;
+  // if (errorMsg) {
+  //   text = errorMsg;
+  // } else if (location) {
+  //  console.log(JSON.stringify(location));
+  // }
 
   return (
     <View style={styles.container}>

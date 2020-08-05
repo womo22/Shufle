@@ -2,6 +2,8 @@ const axios = require("axios").default;
 //Get your favorite AsyncStorage handler with import (ES6) or require
 import { AsyncStorage } from 'react-native'; 
 
+import * as Location from 'expo-location';
+
 //Before using the SDK...
 const BASE_URL = "https://shufle.herokuapp.com/parse/functions/hello";
 export const Parse = require('parse/react-native.js');
@@ -54,7 +56,27 @@ export async function register(username, password, email, number){
 
 export async function login(username, password){
     try {
+        console.log("try user login");
         const user = await Parse.User.logIn(username, password);
+        
+        Location.requestPermissionsAsync().then(({ status }) => {
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+
+            Location.getCurrentPositionAsync({}).then((location) => {
+                console.log(location);
+
+                var point = new Parse.GeoPoint({
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude
+                });
+
+                user.set("location", point);
+                user.save();
+            });
+        });
 
         return true;
     }
