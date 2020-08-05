@@ -28,8 +28,8 @@ export async function getMessage(name) {
 export async function currentlyLoggedIn() {
     // TODO: check to make sure this also validates the session (i.e. won't give a user back
     // from an expired session)
-    const user = await Parse.User.currentAsync();
-    return user != 0;
+    //const user = await Parse.User.currentAsync();
+    return false;//user != 0;
 }
 
 export async function register(username, password, email, number){
@@ -77,7 +77,7 @@ export async function makeSomeCards() {
     const CardClass = Parse.Object.extend("Card");
 
     let card1 = new CardClass();
-    card1.set("question", "who is really the best dog?");
+    card1.set("question", `Who is really the best dog ${user.get("username")}?`);
     card1.set("answer", "Remy");
     card1.set("owner", user);
     card1.setACL(new Parse.ACL(user));
@@ -96,6 +96,7 @@ export async function makeSomeCards() {
             console.log("Error! could not destroy card because ", error);
         });
     });
+
 
     user.set("cards", [card1]);
     user.save();
