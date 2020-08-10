@@ -87,7 +87,12 @@ export async function login(username, password){
 
 
 export async function createCardBatch() {
-    return Parse.Cloud.run("create_card_batch", {});
+    return await Parse.Cloud.run("create_card_batch", {});
+}
+
+// TODO put this somewhere in frontend
+export function saveResults(cardListWithAnswers) {
+    Parse.Cloud.run("send_answers", cardListWithAnswers);
 }
 
 

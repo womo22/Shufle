@@ -29,6 +29,35 @@ export default function StreamScreen(props) {
   const [question, setQuestion] = React.useState("");
   const [answer, setAnswer] = React.useState("");
 
+
+  /*
+   * cards list returned from query:
+   * cards= [
+   *   {
+   *     question: "what is ..",
+   *     answer: "my faov...",
+   *   },
+   *   {
+   *     ...
+   *   }
+   *   ...
+   * ]
+   * 
+   * after swiping, need to call saveResults with updated cards list as argument
+   * 
+   * updated cards list would look like this:
+   * cards= [
+   *   {
+   *     question: "what is ..",
+   *     answer: "my faov...",
+   *     swipe: true/false (right/left)
+   *   },
+   *   {
+   *     ...
+   *   }
+   *   ...
+   * ]
+   */
   React.useEffect(() => {
     createCardBatch().then(cards => {
       setQuestion(cards[0].question);
