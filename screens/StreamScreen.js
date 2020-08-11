@@ -8,27 +8,22 @@
  */
 
 import * as React from 'react';
-import { View, Platform, StyleSheet, Text } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { View, Platform, StyleSheet, Text, Animated, Button } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { ProfileCard } from '../components/ProfileCard';
+import Swiper from 'react-native-deck-swiper';
 
-import { createCardBatch } from './../assets/utils/APIService';
+import { createCardBatch, saveResults } from './../assets/utils/APIService';
+
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 
 const axios = require("axios").default;
-
-
-//const BASE_URL = "https://shufle.herokuapp.com/parse/functions/hello";
 const BASE_URL = "https://shufle.herokuapp.com/parse/functions/create_card_batch";
 
 
 export default function StreamScreen(props) {
-  // query server for a certain number of cards
-  // array of {"question": , "answer": }
-  // const [cardArray, setCardArray] = React.useState([]);
-
-  const [question, setQuestion] = React.useState("");
-  const [answer, setAnswer] = React.useState("");
-
+  const [cards, setCards] = React.useState([]);
+  const [retCards, setRetCards] = React.useState([]);
 
   /*
    * cards list returned from query:
@@ -60,145 +55,72 @@ export default function StreamScreen(props) {
    */
   React.useEffect(() => {
     createCardBatch().then(cards => {
-      setQuestion(cards[0].question);
-      setAnswer(cards[0].answer);
+      setCards(cards);
     });
   }, []);
-  
 
-  // React.useEffect(() => {
-  //   async function getCards() {
-  //     // let result = await getCards(username, password);
-  //     // if (result) {
-  //     //   setCardArray(true);
-  //     // }
-  //     setCardArray([
-  //       {
-  //         'question': 'What is your favorite food?',
-  //         'answer': 'Pineapple pizza',
-  //       },
-  //       {
-  //         'question': 'What is your favorite animal?',
-  //         'answer': 'Elephant',
-  //       },
-  //     ]);
-  //     console.log("here2");
-  //   }
-  //   getCards();
-  // })
+  function swipeRight(index) {
+    console.log("swiped right");
+    if (cards[index]) {
+      const question = cards[index].question;
+      const answer = cards[index].answer;
+      const retObj = {
+        'question': question,
+        'answer': answer,
+        'swipe': true,
+      };
+      setRetCards(retCards => [...retCards, retObj]);
+      console.log(retCards);
+    }
+  }
 
-  // function advanceCards() {
-  //   const newArr = cardArray;
-  //   newArr.shift();
-  //   console.log("here");
-  //   setCardArray(newArr);
-  // }
+  function swipeLeft(index) {
+    if (cards[index]) {
+      const question = cards[index].question;
+      const answer = cards[index].answer;
+      const retObj = {
+        'question': question,
+        'answer': answer,
+        'swipe': false,
+      };
+      setRetCards(retCards => [...retCards, retObj]);
+      console.log(retCards);
+    }
+  }
+
+  function sendResults() {
+    saveResults(retCards);
+  }
+
     return (
         <View style={styles.container}>
-            {/* <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}> */}
-          <Text style={styles.getStartedText}>Swipe page!</Text>
-          {/* {cardArray.length > 0 && */
-            <ProfileCard question={question} answer={answer} />
+          {cards.length > 0 &&
+          <View>
+          <Swiper
+            cards={cards}
+            renderCard={(card) => {
+              return (
+                <ProfileCard question={card.question} answer={card.answer} />
+              )
+            }}
+            onSwiped={(cardIndex) => { console.log(cardIndex) }}
+            onSwipedLeft={(cardIndex) => { swipeLeft(cardIndex) }}
+            onSwipedRight={(cardIndex) => { swipeRight(cardIndex) }}
+            onSwipedAll={sendResults}
+            cardIndex={0}
+            backgroundColor={'#4FD0E9'}
+            stackSize={cards.length}>
+          </Swiper>
+          </View>
           }
-            {/* </ScrollView> */}
         </View>
-        );
+  );
 }
-
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-    },
-    developmentModeText: {
-      marginBottom: 20,
-      color: 'rgba(0,0,0,0.4)',
-      fontSize: 14,
-      lineHeight: 19,
-      textAlign: 'center',
-    },
-    contentContainer: {
-      paddingTop: 30,
-      height: "100%"
-    },
-    welcomeContainer: {
-      alignItems: 'center',
-      marginTop: 10,
-      marginBottom: 20,
-    },
-    welcomeImage: {
-      width: 100,
-      height: 80,
-      resizeMode: 'contain',
-      marginTop: 3,
-      marginLeft: -10,
-    },
-    getStartedContainer: {
-      alignItems: 'center',
-      marginHorizontal: 50,
-    },
-    homeScreenFilename: {
-      marginVertical: 7,
-    },
-    codeHighlightText: {
-      color: 'rgba(96,100,109, 0.8)',
-    },
-    codeHighlightContainer: {
-      backgroundColor: 'rgba(0,0,0,0.05)',
-      borderRadius: 3,
-      paddingHorizontal: 4,
-    },
-    getStartedText: {
-      fontSize: 17,
-      color: 'rgba(96,100,109, 1)',
-      lineHeight: 24,
-      textAlign: 'center',
-    },
-    tabBarInfoContainer: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      ...Platform.select({
-        ios: {
-          shadowColor: 'black',
-          shadowOffset: { width: 0, height: -3 },
-          shadowOpacity: 0.1,
-          shadowRadius: 3,
-        },
-        android: {
-          elevation: 20,
-        },
-      }),
-      alignItems: 'center',
-      backgroundColor: '#fbfbfb',
-      paddingVertical: 20,
-    },
-    tabBarInfoText: {
-      fontSize: 17,
-      color: 'rgba(96,100,109, 1)',
-      textAlign: 'center',
-    },
-    navigationFilename: {
-      marginTop: 5,
-    },
-    helpContainer: {
-      marginTop: 15,
-      alignItems: 'center',
-    },
-    helpLink: {
-      paddingVertical: 15,
-    },
-    helpLinkText: {
-      fontSize: 14,
-      color: '#2e78b7',
-    },
-    submitButton: {
-      backgroundColor: '#7a42f4',
-      padding: 10,
-      margin: 15,
-      height: 40,
     },
   });
   
