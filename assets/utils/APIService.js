@@ -85,6 +85,20 @@ export async function login(username, password){
     }
 }
 
+export async function save_profile_information(profile_obj) {
+    const user = await Parse.User.currentAsync();
+    
+    const ProfileInformationClass = Parse.Object.extend("ProfileInformation");
+    let profileInfo = new ProfileInformationClass();
+
+    for (const q in profile_obj) {
+        profileInfo.set(q, profile_obj[q]);
+    }
+
+    user.set("profile_info", profileInfo);
+    user.save();
+}
+
 
 export async function createCardBatch() {
     return await Parse.Cloud.run("create_card_batch", {});
