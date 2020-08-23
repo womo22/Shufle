@@ -90,6 +90,27 @@ const allStyles = StyleSheet.create({
         elevation: 1,
         marginHorizontal: 10,
         marginVertical: 15,
-        padding: 10
+        padding: 10,
     },
+    button: {
+        backgroundColor: "#cdcdcd",
+        borderRadius: 10,
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        alignItems: "center",
+        marginVertical: 10,
+        height: "30%",
+        width: "30%",
+        alignSelf: 'center'
+    },
+    buttonText: {
+        textAlign: "center",
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    chip: {
+        width: '30%',
+        marginTop: 10,
+        alignSelf: 'center',
+    }
 });
