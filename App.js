@@ -9,6 +9,7 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import LinkingConfiguration from './navigation/LinkingConfiguration';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
+import SignupInformation from './screens/SignupInformation';
 
 const Stack = createStackNavigator();
 const AuthContext = React.createContext();
@@ -16,6 +17,7 @@ const AuthContext = React.createContext();
 export default function App({navigation}) {
   useCachedResources();
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [signedIn, setSignedIn] = React.useState(false);
   const [location, setLocation] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState(false);
 
@@ -43,16 +45,22 @@ export default function App({navigation}) {
     <View style={styles.container}>
       <NavigationContainer linking={LinkingConfiguration}>
         <Stack.Navigator>
-          {!loggedIn ? (
+          {!loggedIn && !signedIn && (
             [
               <Stack.Screen name="Login" component={LoginScreen} initialParams={{ 'func': setLoggedIn }} />,
-              <Stack.Screen name="Signup" component={SignupScreen} initialParams={{ 'func': setLoggedIn }}/>
+              <Stack.Screen name="Signup" component={SignupScreen} initialParams={{ 'func': setSignedIn }} />
             ]
-          ) : (
+          )} 
+          {signedIn && (
+            [
+              <Stack.Screen name="SignupInfo" component={SignupInformation} initialParams={{ 'func': setLoggedIn }} />
+            ]
+          )} 
+          {loggedIn && (
             [
                 <Stack.Screen name="Home" component={BottomTabNavigator} />
             ]
-              )}
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </View>

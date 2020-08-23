@@ -12,12 +12,12 @@ export default function SignupScreen(props) {
 
     const { styles } = useStyle("textBox");
 
-    const setLoggedIn = props.route.params.func;
+    const setSignedIn = props.route.params.func;
 
     async function processSignup() {
         let result = await register(username, password, email, phone);
         if (result) {
-            setLoggedIn(true);
+            setSignedIn(true);
         }
     }
 
