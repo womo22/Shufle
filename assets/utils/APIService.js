@@ -3,6 +3,7 @@ const axios = require("axios").default;
 import { AsyncStorage } from 'react-native'; 
 
 import * as Location from 'expo-location';
+import { CardStyleInterpolators } from '@react-navigation/stack';
 
 //Before using the SDK...
 const BASE_URL = "https://shufle.herokuapp.com/parse/functions/hello";
@@ -115,7 +116,20 @@ export async function getQuestions() {
 }
 
 export async function uploadCard(card) {
-    return Parse.Cloud.run("upload_card", card);
+    let user = await Parse.User.current();
+
+    let cards = user.get("cards");
+    if (cards === undefined) {
+        cards = [];
+    }
+    else {
+        cards = cards.filter((c) => c.question !== cards.question);
+    }
+    cards.push(card);
+    user.set("cards", cards);
+    user.save().then(() => {}, (err) => {
+        console.log("failed to save user object, reason: " + err.message);
+    });
 }
 
 
