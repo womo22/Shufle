@@ -94,12 +94,12 @@ const allStyles = StyleSheet.create({
     },
     button: {
         backgroundColor: "#cdcdcd",
-        borderRadius: 10,
+        borderRadius: 15,
         paddingHorizontal: 5,
         paddingVertical: 5,
         alignItems: "center",
-        marginVertical: 10,
-        height: "30%",
+        marginTop: 5,
+        height: "26%",
         width: "30%",
         alignSelf: 'center'
     },
