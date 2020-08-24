@@ -101,7 +101,13 @@ export async function save_profile_information(profile_obj) {
 
 
 export async function createCardBatch() {
-    return await Parse.Cloud.run("create_card_batch", {});
+    let cards = await Parse.Cloud.run("create_card_batch", {});
+    let questions = await getQuestions();
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].question = questions[cards[i].question].question;
+    }
+    console.log(cards);
+    return cards;
 }
 
 // TODO put this somewhere in frontend
