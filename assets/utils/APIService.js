@@ -118,18 +118,12 @@ export async function uploadCard(card) {
     let user = await Parse.User.current();
 
     const CardClass = Parse.Object.extend("Card");
+    let pcard = new CardClass();
+    pcard.set("question", card.question);
+    pcard.set("answer", card.answer);
 
-    let cards = user.get("cards");
-    if (cards === undefined) {
-        cards = [];
-    }
-    else {
-        cards = cards.filter((c) => c.question !== cards.question);
-    }
-    cards.push(card);
-    user.set("cards", cards);
-    user.save().then(() => {}, (err) => {
-        console.log("failed to save user object, reason: " + err.message);
+    pcard.save().then(() => {}, (err) => {
+        console.log("failed to save card object, reason: " + err.message);
     });
 }
 
