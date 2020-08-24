@@ -72,8 +72,6 @@ export default function SignupInformation(props) {
         }
         setQuestionList(copy);
         mapQuestionsList(copy);
-        console.log(origList);
-        console.log('selected', selectedQuestion);
         let ind = 0;
         for (let i = 0; i < origList.length; i++) {
             if (origList[i].label === selectedQuestion.label) {
@@ -85,7 +83,6 @@ export default function SignupInformation(props) {
             question: ind,
             answer: questionAnswer,
         }
-        console.log(retObj);
         setQuestionAnswer('');
         setSelectedQuestion(items[0]);
         let result = await uploadCard(retObj);
