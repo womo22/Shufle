@@ -114,6 +114,10 @@ export async function getQuestions() {
     return Parse.Cloud.run("get_questions", {});
 }
 
+export async function uploadCard(card) {
+    return Parse.Cloud.run("upload_card", card);
+}
+
 
 // DEBUG ONLY
 export async function makeSomeCards() {
