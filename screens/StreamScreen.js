@@ -13,7 +13,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { ProfileCard } from '../components/ProfileCard';
 import Swiper from 'react-native-deck-swiper';
 
-import { createCardBatch, saveResults } from './../assets/utils/APIService';
+import { createCardBatch, saveResults, getQuestions } from './../assets/utils/APIService';
 
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 
@@ -56,6 +56,9 @@ export default function StreamScreen(props) {
   React.useEffect(() => {
     createCardBatch().then(cards => {
       setCards(cards);
+    });
+    getQuestions().then(qs => {
+      console.log(qs);
     });
   }, []);
 

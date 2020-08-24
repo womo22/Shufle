@@ -110,6 +110,11 @@ export function saveResults(cardListWithAnswers) {
 }
 
 
+export async function getQuestions() {
+    return Parse.Cloud.run("get_questions", {});
+}
+
+
 // DEBUG ONLY
 export async function makeSomeCards() {
     const user = await Parse.User.currentAsync();
