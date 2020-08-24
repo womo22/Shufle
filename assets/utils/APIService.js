@@ -96,8 +96,7 @@ export async function save_profile_information(profile_obj) {
         profileInfo.set(q, profile_obj[q]);
     }
 
-    user.set("profile_info", profileInfo);
-    user.save();
+    profileInfo.save();
 }
 
 
@@ -117,6 +116,8 @@ export async function getQuestions() {
 
 export async function uploadCard(card) {
     let user = await Parse.User.current();
+
+    const CardClass = Parse.Object.extend("Card");
 
     let cards = user.get("cards");
     if (cards === undefined) {
@@ -141,7 +142,7 @@ export async function makeSomeCards() {
     const CardClass = Parse.Object.extend("Card");
 
     let card1 = new CardClass();
-    card1.set("question", `Who is really the best dog ${user.get("username")}?`);
+    card1.set("question", 1);
     card1.set("answer", "Remy");
     card1.set("owner", user);
     card1.setACL(new Parse.ACL(user));
@@ -161,8 +162,6 @@ export async function makeSomeCards() {
         });
     });
 
-
-    user.set("cards", [card1]);
-    user.save();
+    card1.save();
 }
 
