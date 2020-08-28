@@ -166,11 +166,13 @@ export async function get_messages(convo_idx) {
     return [
         {
             text: "message they sent to me",
-            author: AUTHOR_OTHER
+            author: AUTHOR_OTHER,
+            timestamp: new Date()
         },
         {
             text: "message I sent to them",
-            author: AUTHOR_SELF
+            author: AUTHOR_SELF,
+            timestamp: new Date()
         }
     ];
 }
