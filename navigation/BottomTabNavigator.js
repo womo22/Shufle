@@ -4,8 +4,10 @@ import * as React from 'react';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
+import ChatScreen from '../screens/ChatScreen';
 import StreamScreen from '../screens/StreamScreen';
 import EditScreen from '../screens/EditScreen';
+import MessagingScreen from '../screens/MessagingScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -35,8 +37,8 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
+        name="Chat"
+        component={ChatScreen}
         options={{
           title: 'Chat',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-chatbubbles" />,

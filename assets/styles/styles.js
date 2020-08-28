@@ -112,5 +112,26 @@ const allStyles = StyleSheet.create({
         width: '30%',
         marginTop: 10,
         alignSelf: 'center',
+    },
+    basicText: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    matchBanner: {
+        height: 65,
+        marginTop: 15,
+        marginRight: 10,
+        marginLeft: 10
+    },
+    roundedImage: {
+        borderWidth: 1,
+        borderColor: 'rgba(0,0,0,0.2)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+        height: 60,
+        backgroundColor: '#fff',
+        borderRadius: 30,
+        marginRight: 10
     }
 });
