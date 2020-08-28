@@ -101,6 +101,7 @@ export async function save_profile_information(profile_obj) {
 
 
 export async function createCardBatch() {
+
     let cards = await Parse.Cloud.run("create_card_batch", {});
     let questions = await getQuestions();
     for (let i = 0; i < cards.length; i++) {
@@ -143,23 +144,24 @@ export async function send_message(convo_idx, msg_text) {
 }
 
 export async function get_conversations() {
-    return [
-        {
-            user_name: "Clayton Knittel",
-            last_message: "Hey Pryce u wanna hang?",
-            timestamp: new Date()
-        },
-        {
-            user_name: "Katie Lund",
-            last_message: "I finished the card swiping!",
-            timestamp: new Date()
-        },
-        {
-            user_name: "Remy",
-            last_message: "woof",
-            timestamp: new Date()
-        }
-    ];
+    return await Parse.Cloud.run("get_conversations", {});
+    // return [
+    //     {
+    //         user_name: "Clayton Knittel",
+    //         last_message: "Hey Pryce u wanna hang?",
+    //         timestamp: new Date()
+    //     },
+    //     {
+    //         user_name: "Katie Lund",
+    //         last_message: "I finished the card swiping!",
+    //         timestamp: new Date()
+    //     },
+    //     {
+    //         user_name: "Remy",
+    //         last_message: "woof",
+    //         timestamp: new Date()
+    //     }
+    // ];
 }
 
 export async function get_messages(convo_idx) {
