@@ -134,6 +134,48 @@ export async function uploadCard(card) {
 }
 
 
+const AUTHOR_SELF = 0;
+const AUTHOR_OTHER = 1;
+
+
+export async function send_message(convo_idx, msg_text) {
+    // TODO
+}
+
+export async function get_conversations() {
+    return [
+        {
+            user_name: "Clayton Knittel",
+            last_message: "Hey Pryce u wanna hang?",
+            timestamp: new Date()
+        },
+        {
+            user_name: "Katie Lund",
+            last_message: "I finished the card swiping!",
+            timestamp: new Date()
+        },
+        {
+            user_name: "Remy",
+            last_message: "woof",
+            timestamp: new Date()
+        }
+    ];
+}
+
+export async function get_messages(convo_idx) {
+    return [
+        {
+            text: "message they sent to me",
+            author: AUTHOR_OTHER
+        },
+        {
+            text: "message I sent to them",
+            author: AUTHOR_SELF
+        }
+    ];
+}
+
+
 // DEBUG ONLY
 export async function makeSomeCards() {
     const user = await Parse.User.currentAsync();
