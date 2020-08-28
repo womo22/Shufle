@@ -140,7 +140,10 @@ const AUTHOR_OTHER = 1;
 
 
 export async function send_message(convo_idx, msg_text) {
-    // TODO
+    Parse.Cloud.run("send_message", {
+        convo_idx: convo_idx,
+        text: msg_text
+    });
 }
 
 export async function get_conversations() {
