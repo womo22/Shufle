@@ -45,13 +45,13 @@ export default function App({navigation}) {
     <View style={styles.container}>
       <NavigationContainer linking={LinkingConfiguration}>
         <Stack.Navigator>
-          {/* {!loggedIn && !signedIn && (
+          {!loggedIn && !signedIn && (
             [
               <Stack.Screen name="Login" component={LoginScreen} initialParams={{ 'func': setLoggedIn }} />,
               <Stack.Screen name="Signup" component={SignupScreen} initialParams={{ 'func': setSignedIn }} />
             ]
-          )}  */}
-          {!signedIn && (
+          )} 
+          {signedIn && (
             [
               <Stack.Screen name="SignupInfo" component={SignupInformation} initialParams={{ 'func': setLoggedIn }} />
             ]
