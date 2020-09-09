@@ -4,7 +4,18 @@ import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
+
+import { get_conversations, send_message, get_messages } from './../assets/utils/APIService';
+
 export default function LinksScreen() {
+  get_conversations().then((convos) => {
+    console.log('convos:', convos);
+
+    get_messages(0).then((msgs) => {
+      console.log("messages:", msgs);
+      send_message(0, `hey stranger, the convo has ${msgs.length+1} messages now`);
+    });
+  });
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <OptionButton
