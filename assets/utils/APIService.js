@@ -147,6 +147,7 @@ export async function send_message(convo_idx, msg_text) {
 }
 
 export async function get_conversations() {
+    await Parse.Cloud.run("create_random_convo", {});
     return await Parse.Cloud.run("get_conversations", {});
     // return [
     //     {
@@ -168,18 +169,19 @@ export async function get_conversations() {
 }
 
 export async function get_messages(convo_idx) {
-    return [
-        {
-            text: "message they sent to me",
-            author: AUTHOR_OTHER,
-            timestamp: new Date()
-        },
-        {
-            text: "message I sent to them",
-            author: AUTHOR_SELF,
-            timestamp: new Date()
-        }
-    ];
+    return await Parse.Cloud.run("get_messages", { convo_idx: convo_idx });
+    // return [
+    //     {
+    //         text: "message they sent to me",
+    //         author: AUTHOR_OTHER,
+    //         timestamp: new Date()
+    //     },
+    //     {
+    //         text: "message I sent to them",
+    //         author: AUTHOR_SELF,
+    //         timestamp: new Date()
+    //     }
+    // ];
 }
 
 
