@@ -11,9 +11,9 @@ export default function LinksScreen() {
   get_conversations().then((convos) => {
     console.log('convos:', convos);
 
-    get_messages(0).then((msgs) => {
+    get_messages(convos[0]).then((msgs) => {
       console.log("messages:", msgs);
-      send_message(0, `hey stranger, the convo has ${msgs.length+1} messages now`);
+      send_message(convos[0], `hey stranger, the convo has ${msgs.length+1} messages now`);
     });
   });
   return (

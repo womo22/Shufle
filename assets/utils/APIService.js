@@ -138,17 +138,69 @@ export async function uploadCard(card) {
 const AUTHOR_SELF = 0;
 const AUTHOR_OTHER = 1;
 
+// for use on backend storage of messages
+const AUTHOR_USER1 = 0;
+const AUTHOR_USER2 = 1;
 
-export async function send_message(convo_idx, msg_text) {
-    Parse.Cloud.run("send_message", {
-        convo_idx: convo_idx,
-        text: msg_text
-    });
+export async function send_message(convo_obj, text) {
+    const MsgClass = Parse.Object.extend("Message");
+    const user = Parse.User.current();
+
+    let convo = convo_obj.convo_object;
+
+    // TODO verify server-side
+    let author = user.equals(convo.get("user1")) ? AUTHOR_USER1 : AUTHOR_USER2;
+
+    // TODO dp this server side
+    const time = new Date();
+
+    let msg = new MsgClass();
+    msg.set("text", text);
+    msg.set("author", author);
+    msg.set("timestamp", time);
+    msg.set("conversation", convo);
+
+    msg.save();
+
+    convo.set("last_message", text);
+    convo.set("timestamp", time);
+    convo.save();
 }
 
 export async function get_conversations() {
-    await Parse.Cloud.run("create_random_convo", {});
-    return await Parse.Cloud.run("get_conversations", {});
+    let user = Parse.User.current();
+
+    const ConvoClass = Parse.Object.extend("Conversation");
+    const query1 = new Parse.Query(ConvoClass);
+    const query2 = new Parse.Query(ConvoClass);
+    query1.equalTo("user1", user);
+    query2.equalTo("user2", user);
+    const query = Parse.Query.or(query1, query2);
+
+    const convos = await query.find();
+
+    let convo_list = await Promise.all(convos.map(async (convo) => {
+        let otherName;
+        console.log("convo:", convo);
+        if (convo.get("user1").equals(user)) {
+            otherName = convo.get("user2_name");
+        }
+        else {
+            otherName = convo.get("user1_name");
+        }
+
+        return {
+            convo_object: convo,
+            user_name: otherName,
+            last_message: convo.get("last_message"),
+            timestamp: convo.get("timestamp")
+        };
+    }));
+
+    console.log("Conversations: ", convo_list);
+
+    return convo_list;
+
     // return [
     //     {
     //         user_name: "Clayton Knittel",
@@ -168,8 +220,39 @@ export async function get_conversations() {
     // ];
 }
 
-export async function get_messages(convo_idx) {
-    return await Parse.Cloud.run("get_messages", { convo_idx: convo_idx });
+/*
+ * expects a conversation object as given in the array of objects in get_conversations
+ */
+export async function get_messages(convo_obj) {
+    // return await Parse.Cloud.run("get_messages", { convo_idx: convo_idx });
+    let user = await Parse.User.current();
+
+    let convo = convo_obj.convo_object;
+
+    let am_user1 = user.equals(convo.get("user1"));
+
+    console.log("sm I user1?", am_user1);
+
+    const MsgClass = Parse.Object.extend("Message");
+    let msgQuery = new Parse.Query(MsgClass);
+    msgQuery.equalTo("conversation", convo);
+    let parseMsgs = await msgQuery.find();
+
+    let msgs = [];
+    for (let i = 0; i < parseMsgs.length; i++) {
+        let authorIdx = parseMsgs[i].get("author");
+
+        let authorField = (am_user1 ^ (authorIdx == AUTHOR_USER2)) ? AUTHOR_SELF : AUTHOR_OTHER;
+
+        msgs.push({
+            text: parseMsgs[i].get("text"),
+            timestamp: parseMsgs[i].get("timestamp"),
+            author: authorField
+        });
+    }
+
+    return msgs;
+
     // return [
     //     {
     //         text: "message they sent to me",
