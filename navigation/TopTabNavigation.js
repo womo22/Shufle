@@ -8,6 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import StreamScreen from '../screens/StreamScreen';
 import EditScreen from '../screens/EditScreen';
+import ChatScreen from  '../screens/ChatScreen';
 import { Text } from 'react-native';
 
 const INITIAL_ROUTE_NAME = 'Home';
@@ -57,7 +58,7 @@ export default function TopTabNavigation({ navigation, route }) {
             />
             <TopTabNav.Screen
                 name="Chat"
-                component={LinksScreen}
+                component={ChatScreen}
                 options={{
                     title: 'Chat',
                     tabBarIcon: ({ focused }) => <OuterTab focused={focused} name="ios-chatbubbles"/>,

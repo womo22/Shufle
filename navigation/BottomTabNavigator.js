@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import StreamScreen from '../screens/StreamScreen';
 import EditScreen from '../screens/EditScreen';
+import ChatScreen from  '../screens/ChatScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
