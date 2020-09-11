@@ -98,7 +98,6 @@ export default function StreamScreen(props) {
     return (
         <View style={styles.container}>
           {cards.length > 0 &&
-          <View>
           <Swiper
             cards={cards}
             renderCard={(card) => {
@@ -111,10 +110,12 @@ export default function StreamScreen(props) {
             onSwipedRight={(cardIndex) => { swipeRight(cardIndex) }}
             onSwipedAll={sendResults}
             cardIndex={0}
-            backgroundColor={'#4FD0E9'}
-            stackSize={cards.length}>
+            backgroundColor={'white'}
+            stackSize={cards.length}
+            useViewOverflow={Platform.OS === 'ios'}
+            removeClippedSubviews={false}
+          >
           </Swiper>
-          </View>
           }
         </View>
   );
@@ -123,7 +124,6 @@ export default function StreamScreen(props) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
     },
   });
   

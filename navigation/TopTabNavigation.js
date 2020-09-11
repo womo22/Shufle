@@ -24,8 +24,9 @@ export default function TopTabNavigation({ navigation, route }) {
             tabBarOptions={{
                 showIcon: true,
                 showLabel: false,
+                style: { height: 70, paddingTop: 16 }
             }}
-            style={{ marginTop: 50}}
+            // style={{ marginTop: 50}}
             swipeEnabled={false}
         >
             <TopTabNav.Screen
