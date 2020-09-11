@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native';
 
 import useCachedResources from './hooks/useCachedResources';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
+import TopTabNavigation from './navigation/TopTabNavigation';
 import LinkingConfiguration from './navigation/LinkingConfiguration';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
@@ -58,7 +59,7 @@ export default function App({navigation}) {
           )} 
           {loggedIn && (
             [
-                <Stack.Screen name="Home" component={BottomTabNavigator} />
+              <Stack.Screen name="Home" component={TopTabNavigation} />
             ]
           )}
         </Stack.Navigator>
