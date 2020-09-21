@@ -181,7 +181,6 @@ export async function get_conversations() {
 
     let convo_list = await Promise.all(convos.map(async (convo) => {
         let otherName;
-        console.log("convo:", convo);
         if (convo.get("user1").equals(user)) {
             otherName = convo.get("user2_name");
         }
@@ -196,8 +195,6 @@ export async function get_conversations() {
             timestamp: convo.get("timestamp")
         };
     }));
-
-    console.log("Conversations: ", convo_list);
 
     return convo_list;
 
@@ -231,7 +228,7 @@ export async function get_messages(convo_obj) {
 
     let am_user1 = user.equals(convo.get("user1"));
 
-    console.log("sm I user1?", am_user1);
+    console.log("am I user1?", am_user1);
 
     const MsgClass = Parse.Object.extend("Message");
     let msgQuery = new Parse.Query(MsgClass);
@@ -250,6 +247,11 @@ export async function get_messages(convo_obj) {
             author: authorField
         });
     }
+
+    let subs = await msgQuery.subscribe();
+    subs.on("update", () => {
+        console.log("Got a new message!");
+    });
 
     return msgs;
 

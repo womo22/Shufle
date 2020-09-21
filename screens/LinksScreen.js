@@ -9,7 +9,7 @@ import { get_conversations, send_message, get_messages } from './../assets/utils
 
 export default function LinksScreen() {
   get_conversations().then((convos) => {
-    console.log('convos:', convos);
+    console.log('__convos__:', convos);
 
     get_messages(convos[0]).then((msgs) => {
       console.log("messages:", msgs);
