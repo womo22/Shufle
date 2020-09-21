@@ -248,9 +248,12 @@ export async function get_messages(convo_obj) {
         });
     }
 
-    let subs = await msgQuery.subscribe();
-    subs.on("update", () => {
-        console.log("Got a new message!");
+    let msgQuery2 = new Parse.Query(MsgClass);
+    msgQuery2.equalTo("conversation", convo);
+    msgQuery2.equalTo("author", am_user1 ? AUTHOR_USER2 : AUTHOR_USER1);
+    let subs = await msgQuery2.subscribe();
+    subs.on("create", (msg) => {
+        console.log("Got a new message!", msg.get("text"));
     });
 
     return msgs;
